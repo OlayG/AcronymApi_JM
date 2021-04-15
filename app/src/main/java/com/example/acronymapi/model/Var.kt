@@ -1,12 +1,11 @@
-package com.example.acronymapi.data.remote.model
+package com.example.acronymapi.model
 
 
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Lf(
+data class Var(
     val freq: Int,
     val lf: String,
-    val since: Int,
-    val vars: List<Var>
+    val since: Int
 )
