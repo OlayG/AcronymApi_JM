@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AcronymApi</string>
+    <string name="search">search</string>
+    <string name="type_acronym">Type acronym...</string>
+</resources>
