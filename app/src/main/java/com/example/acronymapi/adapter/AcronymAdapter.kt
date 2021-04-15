@@ -1,32 +1,38 @@
 package com.example.acronymapi.adapter
 
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.acronymapi.R
-import com.example.acronymapi.data.remote.model.Lf
 import com.example.acronymapi.databinding.AcronymItemBinding
+import com.example.acronymapi.model.Lf
+import com.example.acronymapi.util.inflater
 
-class AcronymAdapter(private val dataSet: List<Lf>) : RecyclerView.Adapter<AcronymAdapter.AcronymViewHolder>() {
+class AcronymAdapter : RecyclerView.Adapter<AcronymAdapter.AcronymViewHolder>() {
 
-    class AcronymViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = AcronymItemBinding.bind(view)
-    }
+    private val dataSet = mutableListOf<Lf>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcronymViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.acronym_item, parent, false)
-        return AcronymViewHolder(view)
+        val binding = AcronymItemBinding.inflate(parent.inflater(), parent, false)
+        return AcronymViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AcronymViewHolder, position: Int) {
-        val meaning = dataSet[position]
-        with(holder) {
-            binding.tvName.text = meaning.lf
-        }
+        holder.loadMeaning(dataSet[position])
     }
 
-    override fun getItemCount(): Int {
-        return dataSet.size
+    override fun getItemCount() = dataSet.size
+
+    fun loadData(meanings: List<Lf>) {
+        dataSet.clear()
+        dataSet.addAll(meanings)
+        notifyDataSetChanged()
+    }
+
+    class AcronymViewHolder(
+        private val binding: AcronymItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun loadMeaning(lf: Lf) = with(binding) {
+            meaning = lf
+            executePendingBindings()
+        }
     }
 }

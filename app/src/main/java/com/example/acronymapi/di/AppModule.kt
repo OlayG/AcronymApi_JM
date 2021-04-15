@@ -1,9 +1,8 @@
 package com.example.acronymapi.di
 
-import com.example.acronymapi.data.remote.AcronymService
+import com.example.acronymapi.remote.AcronymService
 import com.example.acronymapi.repositories.AcronymRepository
 import com.example.acronymapi.repositories.DefaultAcronymRepository
-import com.example.acronymapi.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    private const val BASE_URL = "http://www.nactem.ac.uk/"
 
     @Singleton
     @Provides
@@ -30,7 +30,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideAcronymApi(client: OkHttpClient) : AcronymService = Retrofit.Builder()
-        .baseUrl(Constants.BASE_URL)
+        .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
         .client(client)
         .build()
